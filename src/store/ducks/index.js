@@ -1,7 +1,7 @@
 import { combineReducers } from 'redux'
 
-import repository from './repository'
+import playlists from './playlists'
 
 export default combineReducers({
-  repository,
+  playlists,
 })
