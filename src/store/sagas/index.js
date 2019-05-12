@@ -1,7 +1,8 @@
 import { all, takeLatest } from 'redux-saga/effects'
-// import { Types as RepositoryTypes } from '../ducks/repository'
-// import { addRepository } from './repository'
+import { Types as PlaylistsTypes } from '../ducks/playlists'
+import { getPlaylists } from './playlists'
 
 export default function* rootSaga() {
-  yield all([])
+  const playlistsGet = takeLatest(PlaylistsTypes.GET_REQUEST, getPlaylists)
+  yield all([playlistsGet])
 }

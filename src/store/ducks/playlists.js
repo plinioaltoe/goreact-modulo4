@@ -20,7 +20,7 @@ export default function playlists(state = INITIAL_STATE, action) {
     case Types.GET_REQUEST:
       return { ...state, loading: true }
     case Types.GET_SUCESS:
-      return { ...state, loading: false, data: [...state.data, action.payload.data] }
+      return { ...state, loading: false, data: action.payload.data }
     default:
       return state
   }
