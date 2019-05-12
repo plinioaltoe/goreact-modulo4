@@ -3,15 +3,15 @@ import { BrowserRouter } from 'react-router-dom'
 
 import { Provider } from 'react-redux'
 
-import '../src/config/reactotron'
+import './config/reactotron'
 import GlobalStyle from './styles/global'
 
 import Sidebar from './components/Sidebar'
 import Player from './components/Player'
 import Header from './components/Header'
 
-import Routes from '../src/routes'
-import store from '../src/store'
+import Routes from './routes'
+import store from './store'
 
 import { Wrapper, Container, Content } from './styles/components'
 

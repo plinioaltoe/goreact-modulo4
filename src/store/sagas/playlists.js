@@ -9,30 +9,5 @@ export function* getPlaylists() {
   } catch (error) {
     console.log(error)
     console.tron.log(error)
-    yield put(PlaylistsActions.addPlaylistsFailure(error))
-  }
-}
-
-export function* addPlaylists(action) {
-  try {
-    const { payload } = action
-    const { playlists, latitude, longitude } = payload
-    const { data } = yield call(api.get, `/users/${playlists}`)
-
-    const playlistsData = {
-      id: data.id,
-      name: data.name,
-      login: data.login,
-      avatar_url: data.avatar_url,
-      repos_url: data.repos_url,
-      latitude,
-      longitude,
-    }
-
-    yield put(PlaylistsActions.addPlaylistsSuccess(playlistsData))
-  } catch (error) {
-    const erroMsg = 'Erro ao adicionar repositório'
-
-    yield put(PlaylistsActions.addPlaylistsFailure(erroMsg))
   }
 }
