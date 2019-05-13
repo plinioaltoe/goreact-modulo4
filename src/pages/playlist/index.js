@@ -20,11 +20,19 @@ class Playlist extends Component {
         title: PropTypes.string,
         description: PropTypes.string,
         thumbnail: PropTypes.string,
+        songs: PropTypes.arrayOf(
+          PropTypes.shape({
+            id: PropTypes.number,
+            title: PropTypes.string,
+            author: PropTypes.string,
+            album: PropTypes.string,
+          }),
+        ),
       }),
     }).isRequired,
     match: PropTypes.shape({
       params: PropTypes.shape({
-        id: PropTypes.number,
+        id: PropTypes.string,
       }),
     }).isRequired,
   }
@@ -33,54 +41,73 @@ class Playlist extends Component {
     this.loadPlaylistDetails()
   }
 
+  componentDidUpdate = (prevProps) => {
+    const prevId = prevProps.match.params.id
+    const { match } = this.props
+    const { id } = match.params
+    if (prevId !== id) this.loadPlaylistDetails()
+  }
+
   loadPlaylistDetails = () => {
     const { getPlaylistDetailsRequest, match } = this.props
     const { id } = match.params
     getPlaylistDetailsRequest(id)
   }
 
-  renderDetails = () => (
-    <Container>
-      <Header>
-        <img
-          src="https://99designs-blog.imgix.net/blog/wp-content/uploads/2017/12/Stargroves-album-cover.png?auto=format&q=60&fit=max&w=930"
-          alt="Playlist"
-        />
+  renderDetails = () => {
+    const { playlistDetails } = this.props
+    const playlist = playlistDetails.data
 
-        <div>
-          <span>PLAYLIST</span>
-          <h1>Rock Forever</h1>
-          <p>13 músicas</p>
+    return (
+      <Container>
+        <Header>
+          <img src={playlist.thumbnail} alt={playlist.title} />
 
-          <button type="button"> PLAY</button>
-        </div>
-      </Header>
+          <div>
+            <span>PLAYLIST</span>
+            <h1>{playlist.title}</h1>
+            {!!playlist.songs && <p>{playlist.songs.length} músicas</p>}
 
-      <SongList cellPadding={0} cellSpacing={0}>
-        <thead>
-          <th />
-          <th>Título</th>
-          <th>Artista</th>
-          <th>Álbum</th>
-          <th>
-            <img src={ClockIcon} alt="Duração" />
-          </th>
-        </thead>
+            <button type="button"> PLAY</button>
+          </div>
+        </Header>
 
-        <tbody>
-          <tr>
-            <td>
-              <img src={PlusIcon} alt="Adicionar" />
-            </td>
-            <td>Papercut</td>
-            <td>Linking Park</td>
-            <td>Hybrid Theory</td>
-            <td>3:24</td>
-          </tr>
-        </tbody>
-      </SongList>
-    </Container>
-  )
+        <SongList cellPadding={0} cellSpacing={0}>
+          <thead>
+            <tr>
+              <th />
+              <th>Título</th>
+              <th>Artista</th>
+              <th>Álbum</th>
+              <th>
+                <img src={ClockIcon} alt="Duração" />
+              </th>
+            </tr>
+          </thead>
+
+          <tbody>
+            {!playlist.songs ? (
+              <tr>
+                <td colSpan={5}>Nenhum música cadastrada</td>
+              </tr>
+            ) : (
+              playlist.songs.map(song => (
+                <tr key={song.id}>
+                  <td>
+                    <img src={PlusIcon} alt="Adicionar" />
+                  </td>
+                  <td>{song.title}</td>
+                  <td>{song.author}</td>
+                  <td>{song.album}</td>
+                  <td>3:24</td>
+                </tr>
+              ))
+            )}
+          </tbody>
+        </SongList>
+      </Container>
+    )
+  }
 
   render() {
     const { playlistDetails } = this.props
