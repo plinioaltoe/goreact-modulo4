@@ -9,6 +9,7 @@ import GlobalStyle from './styles/global'
 import Sidebar from './components/Sidebar'
 import Player from './components/Player'
 import Header from './components/Header'
+import ErrorBox from './components/ErrorBox'
 
 import Routes from './routes'
 import store from './store'
@@ -23,6 +24,7 @@ const App = () => (
         <Container>
           <Sidebar />
           <Content>
+            <ErrorBox />
             <Header />
             <Routes />
           </Content>
