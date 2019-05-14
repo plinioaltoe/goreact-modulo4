@@ -12,7 +12,7 @@ export const Types = {
  */
 const INITIAL_STATE = {
   visible: false,
-  message: false,
+  message: null,
 }
 
 export default function error(state = INITIAL_STATE, action) {
